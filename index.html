@@ -20,6 +20,7 @@
       const { useState, useEffect } = React;
 
       const [politiciansList, setPoliticiansList] = useState([]);
+      const [search, setSearch] = useState("");
 
       useEffect(() => {
         getPoliticians();
@@ -33,6 +34,13 @@
         setPoliticiansList(listResult);
       };
 
+      const filteredList = politiciansList.filter((p) => {
+        const isIncluded =
+          p.name.toLowerCase().includes(search.toLowerCase()) ||
+          p.biography.toLowerCase().includes(search.toLowerCase());
+        return isIncluded;
+      });
+
       function Card({ name, image, position, biography }) {
         return (
           <div>
@@ -44,10 +52,18 @@
         );
       }
 
+      function filterList() {}
+
       return (
         <>
+          <input
+            type="text"
+            name="searchbar"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <ul>
-            {politiciansList.map((p, i) => {
+            {filteredList.map((p, i) => {
               return (
                 <li key={i}>
                   <Card
