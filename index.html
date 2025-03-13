@@ -17,7 +17,7 @@
 
   <script type="text/babel">
     function App() {
-      const { useState, useEffect, useMemo } = React;
+      const { useState, useEffect, useMemo, memo } = React;
 
       const [politiciansList, setPoliticiansList] = useState([]);
       const [search, setSearch] = useState("");
@@ -43,7 +43,8 @@
         });
       });
 
-      function Card({ name, image, position, biography }) {
+      const Card = React.memo(({ name, image, position, biography }) => {
+        console.log("stampo card");
         return (
           <div>
             <h3>{name}</h3>
@@ -52,7 +53,7 @@
             <p>{biography}</p>
           </div>
         );
-      }
+      });
 
       function filterList() {}
 
@@ -64,20 +65,12 @@
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <ul>
+
+          <div>
             {filteredList.map((p, i) => {
-              return (
-                <li key={i}>
-                  <Card
-                    name={p.name}
-                    image={p.image}
-                    position={p.position}
-                    biography={p.biography}
-                  />
-                </li>
-              );
+              return <Card key={i} {...p} />;
             })}
-          </ul>
+          </div>
         </>
       );
     }
