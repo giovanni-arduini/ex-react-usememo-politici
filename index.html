@@ -17,10 +17,49 @@
 
   <script type="text/babel">
     function App() {
-      //   const { useState } = React;
+      const { useState, useEffect } = React;
+
+      const [politiciansList, setPoliticiansList] = useState([]);
+
+      useEffect(() => {
+        getPoliticians();
+      }, []);
+
+      const getPoliticians = async function () {
+        const listRequest = await fetch(
+          "https://boolean-spec-frontend.vercel.app/freetestapi/politicians"
+        );
+        const listResult = await listRequest.json();
+        setPoliticiansList(listResult);
+      };
+
+      function Card({ name, image, position, biography }) {
+        return (
+          <div>
+            <h3>{name}</h3>
+            <img src={image} />
+            <p>{position}</p>
+            <p>{biography}</p>
+          </div>
+        );
+      }
+
       return (
         <>
-          <h1>Ciao mondo!</h1>
+          <ul>
+            {politiciansList.map((p, i) => {
+              return (
+                <li key={i}>
+                  <Card
+                    name={p.name}
+                    image={p.image}
+                    position={p.position}
+                    biography={p.biography}
+                  />
+                </li>
+              );
+            })}
+          </ul>
         </>
       );
     }
