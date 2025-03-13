@@ -16,14 +16,21 @@
   </head>
 
   <script type="text/babel">
-    const { useState } = React;
+    function App() {
+      //   const { useState } = React;
+      return (
+        <>
+          <h1>Ciao mondo!</h1>
+        </>
+      );
+    }
   </script>
 
   <script type="text/babel">
     const { createRoot } = ReactDOM;
     const element = document.querySelector(".main");
     const root = createRoot(element);
-    root.render(root);
+    root.render(<App />);
   </script>
 
   <body>
